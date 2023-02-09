@@ -8,12 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    // MARK: Stored properties
+    @State var from: Date = Date()  // Sets to current date and time
+    @State var to: Date = Date()    // Sets to current date and time
+    
+    // MARK: Computed properties
+    var differenceInDays: Int {
+        
+        guard let daysLeft = Calendar.current.dateComponents([.day], from: from, to: to).day else {
+            return 0
+        }
+        
+        return daysLeft
+
+    }
+    
+    // User interface
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        VStack(spacing: 30) {
+            DatePicker(selection: $from, label: {
+                Text("From")
+            })
+
+            DatePicker(selection: $to, label: {
+                Text("To")
+            })
+            
+            Text("\(differenceInDays)")
+                .font(.largeTitle)
+                .fontWeight(.black)
         }
         .padding()
     }
